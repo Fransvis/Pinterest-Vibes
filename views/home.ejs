@@ -2,14 +2,15 @@
 
 
 <div class="container">
-	<% pictures.forEach(function(picture){ %>
-		<div>
-			<img src="<%= picture.image %>">
-				<h4><%= picture.name %></h4>
+	<div class="row" style="display-flex; flex-wrap: wrap;">
+	   <% pictures.forEach(function(picture){ %>
+		<div class="col-md-2 col-sm-6">
+				 <img src="<%= picture.image %>" class="rounded img-fluid">
 		</div>
 	<% }); %>
-
-	<p><a class="btn btn-primary btn-md" href="/home/new">Add a new picture</a></p>
+		</div>
+	 <p><a class="btn btn-primary btn-md" href="/home/new">Add a new picture</a></p>
 </div>
+
 
 <%- include ("partials/footer") %>

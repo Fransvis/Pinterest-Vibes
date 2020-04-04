@@ -10,9 +10,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 var pictures = [
-		{name: "Beautiful", image: "https://images.unsplash.com/photo-1485970671356-ff9156bd4a98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-		{name: "Pretty", image: "https://images.unsplash.com/photo-1485970671356-ff9156bd4a98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-		{name: "Stunning", image: "https://images.unsplash.com/photo-1485970671356-ff9156bd4a98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"}
+		{name: "Beautiful", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
+		{name: "Pretty", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
+		{name: "Stunning", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"}
 	]
 
 app.get("/", function(req, res){
