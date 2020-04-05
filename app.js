@@ -9,30 +9,55 @@ mongoose.connect("mongodb://localhost/pinterest_vibes", { useNewUrlParser: true 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-var pictures = [
-		{name: "Beautiful", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-		{name: "Pretty", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-		{name: "Stunning", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"}
-	]
+var pictureSchema = new mongoose.Schema({
+	name: String,
+	image: String,
+	description: String
+});
+
+var Picture = mongoose.model("picture", pictureSchema); 
+ 
 
 app.get("/", function(req, res){
 	res.render("landing")
 });
 
 app.get("/home", function(req, res){
-	res.render("home", {pictures: pictures});
-})
+	Picture.find({}, function(err, pictures){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("index", {pictures: pictures});
+		}
+	});
+});
 
 app.post("/home", function(req, res){
 	var name  = req.body.name;
 	var image = req.body.image;
-	var newPicture = {name: name, image: image};
-	pictures.push(newPicture);
-	res.redirect("/home");
+	var desc  = req.body.description;
+	var newPicture = {name: name, image: image, description: desc};
+	Picture.create(newPicture, function(err, newPicture){
+		if(err){
+			console.log(err);
+		} else{
+			res.redirect("/home");
+		}
+	});
 });
 
 app.get("/home/new", function(req, res){
 	 res.render("new");
+});
+
+app.get("/home/:id", function(req, res){
+	Picture.findById(req.params.id, function(err, foundPicture){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("show", {picture: foundPicture});
+		}
+	});
 });
 
 
