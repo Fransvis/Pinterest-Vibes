@@ -7,11 +7,12 @@
 	</head>
 	<body>
 		
-	<nav class="navbar navbar-expand-sm bg-dark navbar-primary">
+	<nav class="navbar navbar-expand-sm">
 		<div class="container-fluid">
 			<div class="navbar-header">
               <a class="navbar-brand" href="/home">Pinterest</a>
 			</div>
+			<input id="search" type="text" name="search" placeholder="search">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav ml-auto">
 					<% if(!currentUser){ %>
@@ -19,10 +20,13 @@
                     <li><a href="/register">Sign Up</a></li>
 					<% } else { %> 
 					<li><a href="#"><%= currentUser.username %></a></li>
+					<div id="vr"></div>
                     <li><a href="/logout">Logout</a></li>
 					<% } %>
                 </ul>
 			</div>
 		</div>
     </nav>
+		
+	<hr>
 		

@@ -7,6 +7,10 @@ var express       = require("express"),
 	LocalStrategy = require("passport-local"),
 	User          = require("./models/user")
 
+var pictureRoutes = require("./routes/home"),
+	// CommentRoutes = require("./routes/comments"),
+    authRoutes    = require("./routes/auth")
+
 
     
 
@@ -32,118 +36,11 @@ app.use(function(req, res, next){
 	next();
 })
  
-
-app.get("/", function(req, res){
-	res.render("landing")
-});
-
-app.get("/home", function(req, res){
-	Picture.find({}, function(err, pictures){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("pictures/index", {pictures: pictures, currentUser: req.user});
-		}
-	});
-});
-
-app.post("/home", isLoggedIn, function(req, res){
-	var name  = req.body.name;
-	var image = req.body.image;
-	var desc  = req.body.description;
-	var newPicture = {name: name, image: image, description: desc};
-	Picture.create(newPicture, function(err, newPicture){
-		if(err){
-			console.log(err);
-		} else{
-			res.redirect("/home");
-		}
-	});
-});
-
-app.get("/home/new", isLoggedIn, function(req, res){
-	 res.render("pictures/new");
-});
-
-app.get("/home/:id", function(req, res){
-	Picture.findById(req.params.id, function(err, foundPicture){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("pictures/show", {picture: foundPicture});
-		}
-	});
-});
-
-// app.get("/home/:id", function(req, res){
-// 	Picture.findById(req.params.id, function(err, picture){
-// 		if(err){
-// 			console.log(err);
-// 		} else{
-// 			res.render("pictures/show", {picture: picture});
-// 		}
-// 	});
-// });
-
-// app.post("home/:id", function(req, res){
-// 	Picture.findById(req.params.id, function(err, picture){
-// 		if(err){
-// 			console.log(err);
-// 		} else{
-// 			Comment.create(req.body.comment, function(err, comment){
-// 				if(err){
-// 					console.log(err);
-// 				} else{
-// 					picture.comments.push(comment);
-// 					picture.save();
-// 					res.redirect("/show/" + picture._id)
-// 				}
-// 			});
-// 		}
-// 	});
-// });
+// app.use(CommentRoutes);
+app.use(pictureRoutes);
+app.use(authRoutes);
 
 
-app.get("/register", function(req, res){
-	res.render("register")
-});
-
-app.post("/register", function(req, res){
-	var newUser = new User({username:req.body.username});
-	User.register(newUser, req.body.password, function(err, user){
-		if(err){
-			console.log(err);
-			return res.render("register");
-		} 
-			passport.authenticate("local",)(req, res, function(){
-				res.redirect("/home")
-		});
-	});
-});
-
-app.get("/login", function(req, res){
-	res.render("login");
-})
-
-app.post("/login", passport.authenticate("local", 
-		{
-	     successRedirect: "/home",
-	     failureRedirect: "/login"
-	}),	function(req, res){
-	
-});
- 
-app.get("/logout", function(req, res){
-	req.logout();
-	res.redirect("/home");
-});
-
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
 app.listen("3000", function(){
 	console.log("Pinterest is running");
