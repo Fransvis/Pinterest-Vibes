@@ -1,0 +1,36 @@
+.test {
+	margin: 10px 0;
+      }
+
+li {
+	margin: 0 5px;
+}
+
+.container-fluid {
+	padding: 0 40px;
+}
+
+.gal {
+    column-count: 5;
+	 }	
+
+.gal img{ 
+	width: 100%; 
+	padding: 1px 0;
+        }
+
+ @media (max-width: 500px) {
+		
+		.gal {
+    column-count: 2;
+	  	}
+		
+	}
+
+.show{
+	margin: 25px 110px;
+}
+
+
+
+
