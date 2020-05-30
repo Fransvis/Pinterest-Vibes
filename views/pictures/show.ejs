@@ -1,7 +1,9 @@
 <%- include ("../partials/header") %>
 
+
+
 <div class="container show">
-  <div class="col-6">
+  <div class="col-md-6">
 
 	    <div class="card-img-top d-flex align-items-center bg-light">
 		
@@ -9,9 +11,36 @@
 	
 				<div class="col-md-3">
 					
-                  <p><%= picture.name %></p>
-	
-	              <p><%= picture.description%></p>
+					<div class="showname">
+					
+                  <p class="picname"><%= picture.name %></p>
+					</div>
+					
+					<div class="showdesc">
+				
+	              <p class="picdesc"><%= picture.description%></p>
+						</div>
+					
+					<div class="commentform">
+						
+				      <div id="commentform">
+		                 <form action="/home" method="POST">
+			                <div class="form-group">
+			            	<input class="form-control" type="text" name="commentPost" placeholder="Add a Comment">
+			                </div>
+		                 </form>
+		              </div>
+							</div>
+					
+					<p class="user">
+						<em>Submitted by <%= picture.author.username %></em>
+					</p>
+					<% if(currentUser && picture.author.id.equals(currentUser._id)) { %>
+					 <a class="btn btn-xs btn-warning" href="/home/<%= picture._id %>/edit">Edit</a>
+					 <form id="delete-form" action="/home/<%= picture._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+					<% } %>
 				</div>
 			</div>
 	    </div>

@@ -3,7 +3,7 @@ var express = require("express"),
     Picture = require("../models/picture"),
 	Comment = require("../models/comment")
 
-router.get("/home/:id", function(req, res){
+router.get("/home/:id/comments/new", function(req, res){
 	Picture.findById(req.params.id, function(err, picture){
 		if(err){
 			console.log(err);
@@ -13,22 +13,30 @@ router.get("/home/:id", function(req, res){
 	});
 });
 
-router.post("home/:id", function(req, res){
-	Picture.findById(req.params.id, function(err, picture){
-		if(err){
-			console.log(err);
-		} else{
-			Comment.create(req.body.comment, function(err, comment){
-				if(err){
-					console.log(err);
-				} else{
-					picture.comments.push(comment);
-					picture.save();
-					res.redirect("/show/" + picture._id)
-				}
-			});
-		}
-	});
+router.post("/home/:id/comments", function(req, res){
+   //lookup campground using ID
+   Picture.findById(req.params.id, function(err, picture){
+       if(err){
+           console.log(err);
+           res.redirect("/home/:id");
+       } else {
+        Comment.create(req.body.comment, function(err, comment){
+           if(err){
+               console.log(err);
+           } else {
+               //add username and id to comment
+               comment.author.id = req.user._id;
+               comment.author.username = req.user.username;
+               //save comment
+               comment.save();
+               pictures.comments.push(comment);
+               picture.save();
+               console.log(comment);
+               res.redirect('/campgrounds/' + picture._id);
+           }
+        });
+       }
+   });
 });
 
 function isLoggedIn(req, res, next){
